@@ -1,5 +1,13 @@
 package com.juliano.pedidos.auth.model;
 
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collections;
+import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,7 +17,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class User implements UserDetails{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,4 +30,9 @@ public class User {
     private String password;
 
     private String role;
+
+    @Override
+    public Collections<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role));
+    }
 }
