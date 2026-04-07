@@ -1,5 +1,5 @@
 package com.juliano.pedidos.auth.dto;
 
-public record LoginResponseDTO() {
+public record LoginResponseDTO(String token, String username) {
 
 }
