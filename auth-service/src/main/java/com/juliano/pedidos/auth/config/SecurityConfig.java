@@ -19,7 +19,8 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
     http
         .csrf(csrf -> csrf.disable()) // CSRF é desabilitado para APIs Stateless, será usado JWT
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/api/auth/**").permitAll() // Abertura de rotas para login e registro
+            .requestMatchers("/auth/**").permitAll() // Abertura de rotas para login e registro
+            .requestMatchers("/admin/**").hasRole("ADMIN") // Rotas de administração só para usuários com papel ADMIN
             .anyRequest().authenticated() // Qualquer outra rota precisa de login ativo 
         );
 
