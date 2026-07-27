@@ -5,6 +5,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +17,10 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    // Chave que futuramente será armazenada em variável de ambiente 
-    // ou serviço de gerenciamento de segredos
-    private static final String SECRET_KEY = "WQvQH03CFphCk369xsIQctFtHV7N2TkCT3pdPdiR52o=";
+    @Value("${jwt.secret}")
+    private String secretKey;
+    @Value("${jwt.expiration}")
+    private long jwtExpiration;
 
     // Método para gerar um token JWT para um usuário
     public String generateToken(UserDetails userDetails) {
@@ -26,7 +28,7 @@ public class JwtService {
                 .setClaims(new HashMap<>()) // Pode adicionar claims personalizadas aqui
                 .setSubject(userDetails.getUsername()) // Define o assunto do token como o nome de usuário
                 .setIssuedAt(new Date(System.currentTimeMillis())) // Data de emissão do token
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // Expiração do token (10 horas)
+                .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration)) // Expiração do token (10 horas)
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256) // Assina o token com a chave secreta
                 .compact(); // Compacta o token em uma string
     }
@@ -69,7 +71,7 @@ public class JwtService {
 
     // Método para obter a chave de assinatura a partir da chave secreta
     private Key getSignInKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY); // Decodifica a chave secreta em bytes
+        byte[] keyBytes = Decoders.BASE64.decode(secretKey); // Decodifica a chave secreta em bytes
         return Keys.hmacShaKeyFor(keyBytes); // Gera a chave de assinatura HMAC-SHA a partir dos bytes
     }
 
