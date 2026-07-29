@@ -7,6 +7,7 @@ import com.juliano.pedidos.security.model.Role;
 import com.juliano.pedidos.security.model.UserPrincipal;
 import com.juliano.pedidos.security.repository.UserRepository;
 import com.juliano.pedidos.security.model.User;
+import com.juliano.pedidos.shared.exception.DuplicateResourceException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,7 +33,7 @@ public class AuthService {
 
     public void register(RegisterRequestDTO request){
         if (userRepository.findByUsername(request.username()).isPresent()){
-            throw new IllegalArgumentException("Nome de usuário já está em uso.");
+            throw new DuplicateResourceException("Nome de usuário já está em uso");
         }
 
         User user = new User();
