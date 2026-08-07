@@ -2,6 +2,8 @@ package com.juliano.pedidos.shared.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.AccountStatusException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -47,6 +49,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGeneric(Exception ex){
         return build(HttpStatus.INTERNAL_SERVER_ERROR, "Erro interno do servidor");
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ErrorResponse> handleAccesDenied(AccessDeniedException ex){
+        return build(HttpStatus.FORBIDDEN, "Acesso negado!");
     }
 
     private ResponseEntity<ErrorResponse> build(HttpStatus status, String message){
