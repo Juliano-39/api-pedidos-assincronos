@@ -36,6 +36,7 @@ public class CategoryService {
 
         // Monta a responseDto para devolver o body na requisição
         CategoryResponseDto response = new CategoryResponseDto(
+                category.getId(),
                 category.getName(),
                 category.getDescription()
         );
@@ -57,7 +58,10 @@ public class CategoryService {
         category.setDescription(request.description());
         category = repository.save(category);
 
-        return new CategoryResponseDto(category.getName(), category.getDescription());
+        return new CategoryResponseDto(
+                category.getId(),
+                category.getName(),
+                category.getDescription());
     }
 
     @Transactional
@@ -73,7 +77,10 @@ public class CategoryService {
         Category category = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada"));
 
-        return new CategoryResponseDto(category.getName(), category.getDescription());
+        return new CategoryResponseDto(
+                category.getId(),
+                category.getName(),
+                category.getDescription());
     }
 
 
@@ -83,6 +90,7 @@ public class CategoryService {
 
         return categories.map(category ->
                 new CategoryResponseDto(
+                        category.getId(),
                         category.getName(),
                         category.getDescription()
                 ));
