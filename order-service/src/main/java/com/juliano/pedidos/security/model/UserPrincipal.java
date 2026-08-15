@@ -42,4 +42,7 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public boolean isEnabled() { return true; }
+
+    public Long getUserId(){return user.getId();}
+    public User getUser() {return user;}
 }
