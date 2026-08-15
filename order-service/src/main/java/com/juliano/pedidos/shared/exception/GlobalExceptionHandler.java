@@ -56,6 +56,16 @@ public class GlobalExceptionHandler {
         return build(HttpStatus.FORBIDDEN, "Acesso negado!");
     }
 
+    @ExceptionHandler(InsufficientStockException.class)
+    public ResponseEntity<ErrorResponse> handleInsufficientStock(InsufficientStockException ex){
+        return build(HttpStatus.CONFLICT, ex.getMessage());
+    }
+
+    @ExceptionHandler(InvalidOrderStateException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidOrderState(InvalidOrderStateException ex){
+        return build(HttpStatus.CONFLICT, ex.getMessage());
+    }
+
     private ResponseEntity<ErrorResponse> build(HttpStatus status, String message){
         ErrorResponse error = new ErrorResponse(status.value(), message, LocalDateTime.now());
         return ResponseEntity.status(status).body(error);
