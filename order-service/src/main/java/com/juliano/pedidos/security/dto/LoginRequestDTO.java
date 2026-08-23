@@ -1,5 +1,5 @@
 package com.juliano.pedidos.security.dto;
 
-public record LoginRequestDTO(String username, String password) {
+public record LoginRequestDTO(String login, String password) {
 
 }

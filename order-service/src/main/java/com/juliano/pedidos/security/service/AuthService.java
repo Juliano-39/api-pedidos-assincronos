@@ -36,7 +36,12 @@ public class AuthService {
             throw new DuplicateResourceException("Nome de usuário já está em uso");
         }
 
+        if (userRepository.findByEmail(request.email()).isPresent()){
+            throw new DuplicateResourceException("Email já cadastrado");
+        }
+
         User user = new User();
+        user.setEmail(request.email());
         user.setUsername(request.username());
         // Nunca salvar senha em texto puro — o BCryptPasswordEncoder
         // gera um hash diferente a cada chamada, mesmo pra senhas iguais,
@@ -53,7 +58,7 @@ public class AuthService {
     public LoginResponseDTO login(LoginRequestDTO request){
         var auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        request.username(),
+                        request.login(),
                         request.password()
                 )
         );

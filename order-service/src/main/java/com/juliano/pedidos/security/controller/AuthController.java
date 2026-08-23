@@ -10,10 +10,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.juliano.pedidos.security.service.JwtService;
 import com.juliano.pedidos.security.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -46,6 +43,12 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
+//    @PutMapping("/{id}")
+//    public ResponseEntity<RegisterRequestDTO> UpdateRegister(@Valid @RequestBody RegisterRequestDTO request,
+//                                                             @PathVariable Long id){
+//
+//
+//    }
     
 
 
